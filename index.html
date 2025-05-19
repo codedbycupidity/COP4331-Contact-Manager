@@ -1,5 +1,74 @@
-<html>
- <body>
-   <h1>We Love COP 4331 </h1>
- </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Manager</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Contact Manager</h1>
+        
+        <!-- Login Form -->
+        <div id="loginDiv">
+            <h2>Login</h2>
+            <div id="loginResult"></div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginName">Username:</label>
+                    <input type="text" id="loginName" name="loginName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="loginPassword">Password:</label>
+                    <input type="password" id="loginPassword" name="loginPassword" required>
+                </div>
+                
+                <button type="button" id="loginButton" onclick="doLogin()">Login</button>
+            </form>
+            
+            <p>Don't have an account? <a href="#" onclick="showRegister()">Register here</a></p>
+        </div>
+        
+        <!-- Registration Form (initially hidden) -->
+        <div id="registerDiv" style="display: none;">
+            <h2>Register</h2>
+            <div id="registerResult"></div>
+            
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="firstName">First Name:</label>
+                    <input type="text" id="firstName" name="firstName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" id="lastName" name="lastName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="registerName">Username:</label>
+                    <input type="text" id="registerName" name="registerName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="registerEmail">Email:</label>
+                    <input type="email" id="registerEmail" name="registerEmail" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="registerPassword">Password:</label>
+                    <input type="password" id="registerPassword" name="registerPassword" required>
+                </div>
+                
+                <button type="button" id="registerButton" onclick="doRegister()">Register</button>
+            </form>
+            
+            <p>Already have an account? <a href="#" onclick="showLogin()">Login here</a></p>
+        </div>
+    </div>
+</body>
 </html>

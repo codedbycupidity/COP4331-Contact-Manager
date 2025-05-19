@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Contacts - Contact Manager</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <div id="headerDiv">
+            <h1>My Contacts</h1>
+            <div id="userInfo">
+                Logged in as: <span id="userName"></span>
+                <button id="logoutButton" onclick="doLogout()">Logout</button>
+            </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div id="searchDiv">
+            <input type="text" id="searchText" placeholder="Search contacts...">
+            <button id="searchButton" onclick="searchContacts()">Search</button>
+            <span id="searchResult"></span>
+        </div>
+
+        <!-- Contacts List -->
+        <div id="contactsDiv">
+            <table id="contactsTable">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="contactsList">
+                    <!-- Contacts will be loaded here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Add Contact Section -->
+        <div id="addContactDiv">
+            <h2>Add New Contact</h2>
+            <div id="addContactResult"></div>
+            
+            <form id="addContactForm">
+                <div class="form-group">
+                    <label for="contactFirstName">First Name:</label>
+                    <input type="text" id="contactFirstName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contactLastName">Last Name:</label>
+                    <input type="text" id="contactLastName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contactEmail">Email:</label>
+                    <input type="email" id="contactEmail" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contactPhone">Phone:</label>
+                    <input type="text" id="contactPhone" required>
+                </div>
+                
+                <button type="button" id="addContactButton" onclick="addContact()">Add Contact</button>
+            </form>
+        </div>
+
+        <!-- Edit Contact Section (Initially Hidden) -->
+        <div id="editContactDiv" style="display: none;">
+            <h2>Edit Contact</h2>
+            <div id="editContactResult"></div>
+            
+            <form id="editContactForm">
+                <input type="hidden" id="editContactID">
+                
+                <div class="form-group">
+                    <label for="editFirstName">First Name:</label>
+                    <input type="text" id="editFirstName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editLastName">Last Name:</label>
+                    <input type="text" id="editLastName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editEmail">Email:</label>
+                    <input type="email" id="editEmail" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editPhone">Phone:</label>
+                    <input type="text" id="editPhone" required>
+                </div>
+                
+                <button type="button" id="updateContactButton" onclick="updateContact()">Update Contact</button>
+                <button type="button" id="cancelEditButton" onclick="cancelEdit()">Cancel</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
