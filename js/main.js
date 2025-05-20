@@ -78,53 +78,6 @@ function doLogin() {
   xhr.send(jsonPayload);
 }
 
-function doRegister() {
-  const firstNameVal = document.getElementById("firstName").value;
-  const lastNameVal = document.getElementById("lastName").value;
-  const loginNameVal = document.getElementById("registerName").value;
-  const emailVal = document.getElementById("registerEmail").value;
-  const passwordVal = document.getElementById("registerPassword").value;
-
-  const tmp = {
-    firstName: firstNameVal,
-    lastName: lastNameVal,
-    loginName: loginNameVal,
-    email: emailVal,
-    password: passwordVal
-  };
-
-  const jsonPayload = JSON.stringify(tmp);
-  const url = `${urlBase}/register.${extension}`;
-
-  const xhr = new XMLHttpRequest();
-  xhr.open("POST", url, true);
-  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-      if (xhr.status === 200) {
-        try {
-          const res = JSON.parse(xhr.responseText);
-
-          if (res.error) {
-            document.getElementById("registerResult").innerHTML = res.error;
-            return;
-          }
-
-          document.getElementById("registerResult").innerHTML = "Registration successful! Please log in.";
-          setTimeout(() => window.location.href = "index.html", 2000);
-        } catch (e) {
-          document.getElementById("registerResult").innerHTML = "Error processing response";
-        }
-      } else {
-        document.getElementById("registerResult").innerHTML = "Server error: " + xhr.status;
-      }
-    }
-  };
-
-  xhr.send(jsonPayload);
-}
-
 function doLogout() {
   userId = 0;
   firstName = "";
@@ -218,37 +171,37 @@ function searchContacts() {
     document.getElementById("searchResult").textContent = "Contacts loaded.";
 
     response.results.forEach(contact => {
-  const row = document.createElement("tr");
-  row.innerHTML = `
-    <td class="sticky-col">
-      <div class="dropdown">
-        <button class="dropbtn">Actions ▼</button>
-        <div class="dropdown-content">
-          <a href="#" onclick="toggleDetails(${contact.ID}); return false;">Show</a>
-          <a href="#" onclick="showEditContact(${contact.ID}, '${escapeHtml(contact.firstName)}', '${escapeHtml(contact.lastName)}', '${escapeHtml(contact.email)}', '${escapeHtml(contact.phoneNumber)}', '${escapeHtml(contact.address || "")}'); return false;">Edit</a>
-          <a href="#" onclick="deleteContact(${contact.ID}); return false;">Delete</a>
-        </div>
-      </div>
-    </td>
-    <td>${escapeHtml(contact.firstName)}</td>
-    <td>${escapeHtml(contact.lastName)}</td>
-    <td>${escapeHtml(contact.email)}</td>
-    <td>${escapeHtml(contact.phoneNumber)}</td>
-    <td>${escapeHtml(contact.address || "")}</td>
-  `;
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td class="sticky-col">
+          <div class="dropdown">
+            <button class="dropbtn">Actions ▼</button>
+            <div class="dropdown-content">
+              <a href="#" onclick="toggleDetails(${contact.ID}); return false;">Show</a>
+              <a href="#" onclick="showEditContact(${contact.ID}, '${escapeHtml(contact.firstName)}', '${escapeHtml(contact.lastName)}', '${escapeHtml(contact.email)}', '${escapeHtml(contact.phoneNumber)}', '${escapeHtml(contact.address || "")}'); return false;">Edit</a>
+              <a href="#" onclick="deleteContact(${contact.ID}); return false;">Delete</a>
+            </div>
+          </div>
+        </td>
+        <td>${escapeHtml(contact.firstName)}</td>
+        <td>${escapeHtml(contact.lastName)}</td>
+        <td>${escapeHtml(contact.email)}</td>
+        <td>${escapeHtml(contact.phoneNumber)}</td>
+        <td>${escapeHtml(contact.address || "")}</td>
+      `;
 
-  const detailRow = document.createElement("tr");
-  detailRow.id = `details-${contact.ID}`;
-  detailRow.style.display = "none";
-  detailRow.innerHTML = `
-    <td colspan="6" class="detail-expand">
-      <strong>Address:</strong> ${escapeHtml(contact.address || "(none)")}
-    </td>
-  `;
+      const detailRow = document.createElement("tr");
+      detailRow.id = `details-${contact.ID}`;
+      detailRow.style.display = "none";
+      detailRow.innerHTML = `
+        <td colspan="6" class="detail-expand">
+          <strong>Address:</strong> ${escapeHtml(contact.address || "(none)")}
+        </td>
+      `;
 
-  listContainer.appendChild(row);
-  listContainer.appendChild(detailRow);
-});
+      listContainer.appendChild(row);
+      listContainer.appendChild(detailRow);
+    });
   };
 
   xhr.send(payload);

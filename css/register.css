@@ -1,0 +1,194 @@
+:root {
+  /* Colors */
+  --baseColor: #606468;
+  --iconFill: var(--baseColor);
+  --loginSubmitBackgroundColor: #ea4c88;
+  --loginSubmitHoverBackgroundColor: #d44179;
+  --loginSubmitColor: #eee;
+  --bgDark: #2c3338;
+  --bgMedium: #3b4148;
+  --textLight: #eee;
+  --bgOverlay: rgba(44, 51, 56, 0.75);
+  --cardBg: rgba(59, 65, 72, 0.9);
+  --successBg: rgba(46, 204, 113, 0.2);
+  --successBorder: #2ecc71;
+  
+  /* Spacing */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 0.8rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  
+  /* Animation */
+  --transition-speed: 0.3s;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Background styling for register page */
+body.register-page {
+  background: url('../images/background1.jpeg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+body {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 16px;
+  color: var(--baseColor);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  position: relative;
+  background-color: var(--bgDark);
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bgOverlay);
+  z-index: -1;
+}
+
+.mui-card {
+  max-width: 500px;
+  width: 90%;
+  margin: var(--spacing-xl);
+  background-color: var(--cardBg);
+  border-radius: 8px;
+  padding: var(--spacing-xl);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+  animation: fadeIn 0.5s ease-out forwards;
+  backdrop-filter: blur(6px);
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(-20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+.mui-card h2 {
+  color: var(--baseColor);
+  margin-top: 0;
+  margin-bottom: var(--spacing-lg);
+  text-align: center;
+  font-size: 1.8rem;
+}
+
+.mui-form label {
+  display: block;
+   color: var(--baseColor);
+  margin-bottom: var(--spacing-xs);
+  font-size: 0.9rem;
+}
+
+.mui-form input {
+  width: 100%;
+  padding: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+  background-color: var(--bgDark);
+  border: none;
+  border-radius: 4px;
+  color: var(--textLight);
+  transition: all var(--transition-speed) ease;
+}
+
+.mui-form input:focus {
+  box-shadow: 0 0 0 2px var(--loginSubmitBackgroundColor);
+  outline: none;
+}
+
+.mui-form button {
+  width: 100%;
+  padding: var(--spacing-sm);
+  background-color: var(--loginSubmitBackgroundColor);
+  color: var(--loginSubmitColor);
+  font-weight: bold;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: var(--spacing-md);
+  transition: all var(--transition-speed) ease;
+}
+
+.mui-form button:hover {
+  background-color: var(--loginSubmitHoverBackgroundColor);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.mui-form button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--loginSubmitBackgroundColor);
+}
+
+.mui-form button:active {
+  transform: translateY(0);
+}
+
+.form-switch {
+  text-align: center;
+  margin-top: var(--spacing-lg);
+  font-size: 0.9rem;
+  color: var(--textLight);
+}
+
+.form-switch a {
+  color: var(--loginSubmitBackgroundColor);
+  text-decoration: underline;
+  transition: color var(--transition-speed) ease;
+}
+
+.form-switch a:hover {
+  color: var(--loginSubmitHoverBackgroundColor);
+  text-decoration: none;
+}
+
+#registerResult {
+  padding: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  background-color: var(--successBg);
+  border-left: 4px solid var(--successBorder);
+  color: var(--textLight);
+  display: none; /* Hide by default */
+}
+
+#registerResult.error {
+  background-color: rgba(231, 76, 60, 0.2);
+  border-left: 4px solid #e74c3c;
+}
+
+#registerResult:not(:empty) {
+  display: block; /* Show only when it has content */
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .mui-card {
+    width: 95%;
+    padding: var(--spacing-md);
+    margin: var(--spacing-md);
+  }
+  
+  .mui-card h2 {
+    font-size: 1.5rem;
+  }
+}

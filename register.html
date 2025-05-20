@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register - Contact Manager</title>
+  <link rel="stylesheet" href="css/register.css" />
+  <script src="js/register.js" defer></script>
+</head>
+<body class="register-page">
+  
+  <div class="mui-card">
+    <h2>Register</h2>
+    <div id="registerResult"></div>
+
+    <form id="registerForm" class="mui-form">
+      <label for="firstName">First Name</label>
+      <input type="text" id="firstName" required />
+
+      <label for="lastName">Last Name</label>
+      <input type="text" id="lastName" required />
+
+      <label for="registerName">Username</label>
+      <input type="text" id="registerName" required />
+
+      <label for="registerEmail">Email</label>
+      <input type="email" id="registerEmail" required />
+
+      <label for="registerPassword">Password</label>
+      <input type="password" id="registerPassword" required />
+
+      <button type="submit">REGISTER</button>
+    </form>
+
+    <p class="form-switch">
+      Already have an account?
+      <a href="index.html">Login here</a>
+    </p>
+  </div>
+  
+</body>
+</html>
