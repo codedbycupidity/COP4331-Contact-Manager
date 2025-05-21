@@ -9,6 +9,7 @@
   --textLight: #eee;
 }
 
+
 /* RESET + BASE LAYOUT */
 * {
   box-sizing: border-box;
@@ -520,7 +521,7 @@ body.team-page {
 
 /* Background for login page */
 body.login-page {
-  background: url('../images/background.jpeg') no-repeat center center fixed;
+  background: url('../assets/images/background.jpeg') no-repeat center center fixed;
   background-size: cover;
 }
 
