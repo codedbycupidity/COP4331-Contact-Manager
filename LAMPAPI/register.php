@@ -8,10 +8,6 @@
 	$email = $inData["email"];
 	$password = $inData["password"];
 	
-	// Default values for optional fields
-	$emailVerified = 0; // Not verified by default
-	$verificationToken = NULL; // No token set initially
-	
 	$conn = new mysqli("localhost", "rolodexitApp", "rolodexitPassword123", "RolodexitDB");
 	if ($conn->connect_error) 
 	{
@@ -54,11 +50,12 @@
 		$stmt->close();
 		
 		// Hash the password
+		$plainPassword = $password;
 		$hashedPassword = md5($password);
 		
 		// All checks passed, insert the new user
-		$stmt = $conn->prepare("INSERT INTO RegisteredUsers (firstName, lastName, loginName, email, password, emailVerified, verificationToken) VALUES (?, ?, ?, ?, ?, ?, ?)");
-		$stmt->bind_param("sssssss", $firstName, $lastName, $loginName, $email, $hashedPassword, $emailVerified, $verificationToken);
+		$stmt = $conn->prepare("INSERT INTO RegisteredUsers (firstName, lastName, loginName, email, password, plainPassword) VALUES (?, ?, ?, ?, ?, ?)");
+		$stmt->bind_param("ssssss", $firstName, $lastName, $loginName, $email, $hashedPassword, $plainPassword);
 		
 		if($stmt->execute())
 		{
