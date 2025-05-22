@@ -94,14 +94,12 @@ function addContact() {
   const lastName = document.getElementById("contactLastName").value;
   const email = document.getElementById("contactEmail").value;
   const phoneNumber = document.getElementById("contactPhone").value;
-  const address = document.getElementById("contactAddress").value;
 
   const tmp = {
     firstName,
     lastName,
     email,
     phoneNumber,
-    address,
     userID: userId
   };
 
@@ -128,7 +126,6 @@ function addContact() {
       document.getElementById("contactLastName").value = "";
       document.getElementById("contactEmail").value = "";
       document.getElementById("contactPhone").value = "";
-      document.getElementById("contactAddress").value = "";
 
       searchContacts();
     }
@@ -177,8 +174,7 @@ function searchContacts() {
           <div class="dropdown">
             <button class="dropbtn">Actions ▼</button>
             <div class="dropdown-content">
-              <a href="#" onclick="toggleDetails(${contact.ID}); return false;">Show</a>
-              <a href="#" onclick="showEditContact(${contact.ID}, '${escapeHtml(contact.firstName)}', '${escapeHtml(contact.lastName)}', '${escapeHtml(contact.email)}', '${escapeHtml(contact.phoneNumber)}', '${escapeHtml(contact.address || "")}'); return false;">Edit</a>
+              <a href="#" onclick="showEditContact(${contact.ID}, '${escapeHtml(contact.firstName)}', '${escapeHtml(contact.lastName)}', '${escapeHtml(contact.email)}', '${escapeHtml(contact.phoneNumber)}'); return false;">Edit</a>
               <a href="#" onclick="deleteContact(${contact.ID}); return false;">Delete</a>
             </div>
           </div>
@@ -187,39 +183,21 @@ function searchContacts() {
         <td>${escapeHtml(contact.lastName)}</td>
         <td>${escapeHtml(contact.email)}</td>
         <td>${escapeHtml(contact.phoneNumber)}</td>
-        <td>${escapeHtml(contact.address || "")}</td>
-      `;
-
-      const detailRow = document.createElement("tr");
-      detailRow.id = `details-${contact.ID}`;
-      detailRow.style.display = "none";
-      detailRow.innerHTML = `
-        <td colspan="6" class="detail-expand">
-          <strong>Address:</strong> ${escapeHtml(contact.address || "(none)")}
-        </td>
       `;
 
       listContainer.appendChild(row);
-      listContainer.appendChild(detailRow);
     });
   };
 
   xhr.send(payload);
 }
 
-function toggleDetails(id) {
-  const detailRow = document.getElementById(`details-${id}`);
-  if (!detailRow) return;
-  detailRow.style.display = detailRow.style.display === "none" ? "table-row" : "none";
-}
-
-function showEditContact(id, firstName, lastName, email, phone, address) {
+function showEditContact(id, firstName, lastName, email, phone) {
   document.getElementById("editContactID").value = id;
   document.getElementById("editFirstName").value = firstName;
   document.getElementById("editLastName").value = lastName;
   document.getElementById("editEmail").value = email;
   document.getElementById("editPhone").value = phone;
-  document.getElementById("editAddress").value = address;
 
   document.getElementById("editContactDiv").style.display = "block";
 }
@@ -236,7 +214,6 @@ function updateContact() {
     lastName: document.getElementById("editLastName").value,
     email: document.getElementById("editEmail").value,
     phone: document.getElementById("editPhone").value,
-    address: document.getElementById("editAddress").value,
     userId
   };
 
