@@ -25,7 +25,7 @@
 }
 
 .skeleton-row td {
-    padding: 0.75rem 1rem; /* Match your table cell padding exactly */
+    padding: 0.75rem 1rem; 
     vertical-align: middle;
     border-bottom: 1px solid #444; /* Match table border */
     background-color: var(--bgDark); /* Match table background */
@@ -121,10 +121,9 @@
     max-width: 100px !important;
 }
 
-/* Responsive adjustments for skeleton to match your table */
 @media (max-width: 768px) {
     .skeleton-row td {
-        padding: 0.5rem; /* Match your responsive table padding */
+        padding: 0.5rem; 
         font-size: 0.8rem;
     }
     
@@ -140,7 +139,7 @@
 
 @media (max-width: 480px) {
     .skeleton-row td {
-        padding: 0.4rem; /* Match your responsive table padding */
+        padding: 0.4rem; 
         font-size: 0.75rem;
     }
     

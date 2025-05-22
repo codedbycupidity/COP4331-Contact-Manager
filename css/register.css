@@ -63,13 +63,14 @@ body::before {
   max-width: 500px;
   width: 90%;
   margin: var(--spacing-xl);
-  background-color: var(--cardBg);
+  background-color: rgba(59, 65, 72, 0.9); 
   border-radius: 8px;
   padding: var(--spacing-xl);
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
   animation: fadeIn 0.5s ease-out forwards;
   backdrop-filter: blur(6px);
 }
+
 
 @keyframes fadeIn {
   from { 
