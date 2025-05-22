@@ -12,6 +12,25 @@ document.addEventListener("DOMContentLoaded", function () {
   if (document.getElementById("contactsList")) {
     readCookie();
   }
+  
+  // Add event listeners for real-time validation clearing
+  const fields = ['contactFirstName', 'contactLastName', 'contactEmail', 'contactPhone'];
+  
+  fields.forEach(fieldId => {
+    const field = document.getElementById(fieldId);
+    if (field) {
+      field.addEventListener('input', function() {
+        // Clear error styling when user starts typing
+        this.style.borderColor = '';
+        this.style.boxShadow = '';
+        
+        const errorDiv = this.parentNode.querySelector('.field-error');
+        if (errorDiv) {
+          errorDiv.remove();
+        }
+      });
+    }
+  });
 });
 
 // === Toast Notification ===
@@ -91,19 +110,80 @@ function doLogout() {
   window.location.href = "index.html";
 }
 
-// === Contact Handling ===
+// === Enhanced Contact Handling with Validation ===
 function addContact() {
-  const firstName = document.getElementById("contactFirstName").value;
-  const lastName = document.getElementById("contactLastName").value;
-  const email = document.getElementById("contactEmail").value;
-  const phoneNumber = document.getElementById("contactPhone").value;
+  // Get form values and trim whitespace
+  const firstName = document.getElementById("contactFirstName").value.trim();
+  const lastName = document.getElementById("contactLastName").value.trim();
+  const email = document.getElementById("contactEmail").value.trim();
+  const phoneNumber = document.getElementById("contactPhone").value.trim();
 
-  // Validate form fields
-  if (!firstName.trim() || !lastName.trim() || !email.trim() || !phoneNumber.trim()) {
-    showToast("Error: Please fill in all fields");
+  // Clear any previous error messages
+  clearValidationErrors();
+
+  // Validation flags
+  let isValid = true;
+  const errors = [];
+
+  // Validate First Name
+  if (!firstName) {
+    showFieldError("contactFirstName", "First name is required");
+    errors.push("First name is required");
+    isValid = false;
+  } else if (firstName.length < 2) {
+    showFieldError("contactFirstName", "First name must be at least 2 characters");
+    errors.push("First name must be at least 2 characters");
+    isValid = false;
+  } else if (!/^[a-zA-Z\s'-]+$/.test(firstName)) {
+    showFieldError("contactFirstName", "First name contains invalid characters");
+    errors.push("First name contains invalid characters");
+    isValid = false;
+  }
+
+  // Validate Last Name
+  if (!lastName) {
+    showFieldError("contactLastName", "Last name is required");
+    errors.push("Last name is required");
+    isValid = false;
+  } else if (lastName.length < 2) {
+    showFieldError("contactLastName", "Last name must be at least 2 characters");
+    errors.push("Last name must be at least 2 characters");
+    isValid = false;
+  } else if (!/^[a-zA-Z\s'-]+$/.test(lastName)) {
+    showFieldError("contactLastName", "Last name contains invalid characters");
+    errors.push("Last name contains invalid characters");
+    isValid = false;
+  }
+
+  // Validate Email
+  if (!email) {
+    showFieldError("contactEmail", "Email is required");
+    errors.push("Email is required");
+    isValid = false;
+  } else if (!isValidEmail(email)) {
+    showFieldError("contactEmail", "Please enter a valid email address");
+    errors.push("Please enter a valid email address");
+    isValid = false;
+  }
+
+  // Validate Phone Number
+  if (!phoneNumber) {
+    showFieldError("contactPhone", "Phone number is required");
+    errors.push("Phone number is required");
+    isValid = false;
+  } else if (!isValidPhoneNumber(phoneNumber)) {
+    showFieldError("contactPhone", "Please enter a valid phone number");
+    errors.push("Please enter a valid phone number");
+    isValid = false;
+  }
+
+  // If validation fails, show error toast and return
+  if (!isValid) {
+    showToast("Error: Please fix the highlighted fields");
     return;
   }
 
+  // Proceed with API call if validation passes
   const tmp = {
     firstName,
     lastName,
@@ -130,11 +210,8 @@ function addContact() {
 
       showToast(`Added: ${firstName} ${lastName}`);
 
-      // Clear form
-      document.getElementById("contactFirstName").value = "";
-      document.getElementById("contactLastName").value = "";
-      document.getElementById("contactEmail").value = "";
-      document.getElementById("contactPhone").value = "";
+      // Clear form and validation errors
+      clearAddContactForm();
 
       // Refresh contacts list
       searchContacts();
@@ -142,6 +219,78 @@ function addContact() {
   };
 
   xhr.send(jsonPayload);
+}
+
+// Helper function to validate email format
+function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+// Helper function to validate phone number format
+function isValidPhoneNumber(phone) {
+  // Remove all non-digit characters for validation
+  const cleanPhone = phone.replace(/\D/g, '');
+  
+  // Accept phone numbers with 10-15 digits
+  if (cleanPhone.length < 10 || cleanPhone.length > 15) {
+    return false;
+  }
+  
+  // Optional: More specific US phone number validation
+  // Accepts formats like: (555) 123-4567, 555-123-4567, 555.123.4567, 5551234567
+  const phoneRegex = /^[\+]?[1-9]?[\-\.\s\(\)]?([0-9][\-\.\s\(\)]?){9,14}$/;
+  return phoneRegex.test(phone);
+}
+
+// Show field-specific error styling and message
+function showFieldError(fieldId, message) {
+  const field = document.getElementById(fieldId);
+  if (field) {
+    field.style.borderColor = "#ff4444";
+    field.style.boxShadow = "0 0 5px rgba(255, 68, 68, 0.3)";
+    
+    // Add error message below field if it doesn't exist
+    let errorDiv = field.parentNode.querySelector('.field-error');
+    if (!errorDiv) {
+      errorDiv = document.createElement('div');
+      errorDiv.className = 'field-error';
+      errorDiv.style.color = '#ff4444';
+      errorDiv.style.fontSize = '0.8rem';
+      errorDiv.style.marginTop = '0.25rem';
+      field.parentNode.appendChild(errorDiv);
+    }
+    errorDiv.textContent = message;
+  }
+}
+
+// Clear all validation errors
+function clearValidationErrors() {
+  const fields = ['contactFirstName', 'contactLastName', 'contactEmail', 'contactPhone'];
+  
+  fields.forEach(fieldId => {
+    const field = document.getElementById(fieldId);
+    if (field) {
+      field.style.borderColor = '';
+      field.style.boxShadow = '';
+      
+      // Remove error message
+      const errorDiv = field.parentNode.querySelector('.field-error');
+      if (errorDiv) {
+        errorDiv.remove();
+      }
+    }
+  });
+}
+
+// Clear form and remove validation styling
+function clearAddContactForm() {
+  document.getElementById("contactFirstName").value = "";
+  document.getElementById("contactLastName").value = "";
+  document.getElementById("contactEmail").value = "";
+  document.getElementById("contactPhone").value = "";
+  
+  clearValidationErrors();
 }
 
 function searchContacts() {
@@ -489,6 +638,7 @@ document.addEventListener("click", function (e) {
     menu.style.position = "fixed";
     menu.style.left = `${rect.left}px`;
     menu.style.top = `${rect.bottom + 5}px`; // just under the button
+
     menu.style.display = "block";
 
     dropdown.classList.add("active");
