@@ -82,7 +82,7 @@ body {
   display: flex;
   background-color: var(--bgMedium);
   border-radius: 4px 4px 0 0;
-  border: 1px solid var(--bgMedium); /* Add this line */
+  border: 1px solid var(--baseColor); /* Add this line */
 }
 
 .tab-button {
@@ -181,7 +181,7 @@ body {
   min-width: 800px;
   border-collapse: separate;
   background-color: var(--bgDark);
-  table-layout: auto;
+  table-layout: fixed;
 }
 
 #contactsTable thead {

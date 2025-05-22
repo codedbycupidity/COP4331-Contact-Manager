@@ -6,6 +6,7 @@ const TEST_MODE = true; // Set to false when going to production
 let userId = 0;
 let firstName = "";
 let lastName = "";
+let lastContactCount = 6; // Default skeleton row count
 
 document.addEventListener("DOMContentLoaded", function () {
   if (document.getElementById("contactsList")) {
@@ -97,6 +98,12 @@ function addContact() {
   const email = document.getElementById("contactEmail").value;
   const phoneNumber = document.getElementById("contactPhone").value;
 
+  // Validate form fields
+  if (!firstName.trim() || !lastName.trim() || !email.trim() || !phoneNumber.trim()) {
+    showToast("Error: Please fill in all fields");
+    return;
+  }
+
   const tmp = {
     firstName,
     lastName,
@@ -129,6 +136,7 @@ function addContact() {
       document.getElementById("contactEmail").value = "";
       document.getElementById("contactPhone").value = "";
 
+      // Refresh contacts list
       searchContacts();
     }
   };
@@ -138,8 +146,28 @@ function addContact() {
 
 function searchContacts() {
   const searchInput = document.getElementById("searchText").value.trim();
+  
+  // Clear previous results and show skeleton
   document.getElementById("searchResult").textContent = "";
+  
+  // Determine skeleton row count based on search type
+  const estimatedRows = searchInput ? Math.min(lastContactCount, 8) : lastContactCount;
+  
+  // Show skeleton (assumes you have showSkeleton function in skeleton.js)
+  if (typeof showSkeleton === 'function') {
+    showSkeleton(estimatedRows);
+  }
 
+  // Handle TEST_MODE
+  if (TEST_MODE) {
+    // Simulate network delay for testing
+    setTimeout(() => {
+      handleTestModeSearch(searchInput);
+    }, 1000); // 1 second delay to see skeleton
+    return;
+  }
+
+  // Production API call
   const payload = JSON.stringify({
     search: searchInput,
     userID: userId
@@ -151,6 +179,11 @@ function searchContacts() {
 
   xhr.onreadystatechange = function () {
     if (xhr.readyState !== 4 || xhr.status !== 200) return;
+
+    // Hide skeleton
+    if (typeof hideSkeleton === 'function') {
+      hideSkeleton();
+    }
 
     let response;
     try {
@@ -165,33 +198,93 @@ function searchContacts() {
       return;
     }
 
-    const listContainer = document.getElementById("contactsList");
-    listContainer.innerHTML = "";
-    document.getElementById("searchResult").textContent = "Contacts loaded.";
-
-    response.results.forEach(contact => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td class="sticky-col">
-          <div class="dropdown">
-            <button class="dropbtn">Actions ▼</button>
-            <div class="dropdown-content">
-              <a href="#" onclick="showEditContact(${contact.ID}, '${escapeHtml(contact.firstName)}', '${escapeHtml(contact.lastName)}', '${escapeHtml(contact.email)}', '${escapeHtml(contact.phoneNumber)}'); return false;">Edit</a>
-              <a href="#" onclick="deleteContact(${contact.ID}); return false;">Delete</a>
-            </div>
-          </div>
-        </td>
-        <td>${escapeHtml(contact.firstName)}</td>
-        <td>${escapeHtml(contact.lastName)}</td>
-        <td>${escapeHtml(contact.email)}</td>
-        <td>${escapeHtml(contact.phoneNumber)}</td>
-      `;
-
-      listContainer.appendChild(row);
-    });
+    populateContactsTable(response.results, searchInput);
   };
 
   xhr.send(payload);
+}
+
+// Test mode search function
+function handleTestModeSearch(searchInput) {
+  // Hide skeleton
+  if (typeof hideSkeleton === 'function') {
+    hideSkeleton();
+  }
+
+  // Mock data for testing
+  const mockContacts = [
+    { ID: 1, firstName: "John", lastName: "Smith", email: "john.smith@email.com", phoneNumber: "(555) 123-4567" },
+    { ID: 2, firstName: "Jane", lastName: "Doe", email: "jane.doe@email.com", phoneNumber: "(555) 987-6543" },
+    { ID: 3, firstName: "Michael", lastName: "Johnson", email: "m.johnson@email.com", phoneNumber: "(555) 456-7890" },
+    { ID: 4, firstName: "Sarah", lastName: "Williams", email: "sarah.w@email.com", phoneNumber: "(555) 321-0987" },
+    { ID: 5, firstName: "David", lastName: "Brown", email: "david.brown@email.com", phoneNumber: "(555) 654-3210" },
+    { ID: 6, firstName: "Emily", lastName: "Davis", email: "emily.davis@email.com", phoneNumber: "(555) 789-0123" }
+  ];
+
+  // Filter contacts based on search input
+  let filteredContacts = mockContacts;
+  if (searchInput) {
+    filteredContacts = mockContacts.filter(contact => 
+      contact.firstName.toLowerCase().includes(searchInput.toLowerCase()) ||
+      contact.lastName.toLowerCase().includes(searchInput.toLowerCase()) ||
+      contact.email.toLowerCase().includes(searchInput.toLowerCase()) ||
+      contact.phoneNumber.includes(searchInput)
+    );
+  }
+
+  populateContactsTable(filteredContacts, searchInput);
+}
+
+// Fixed populateContactsTable function
+function populateContactsTable(contacts, searchInput = "") {
+  const listContainer = document.getElementById("contactsList");
+  listContainer.innerHTML = "";
+  
+  // Update last contact count for future skeleton displays
+  lastContactCount = Math.max(contacts.length, 3); // Minimum 3 for skeleton
+  
+  // Update search result text
+  if (searchInput) {
+    document.getElementById("searchResult").textContent = 
+      `Found ${contacts.length} contact${contacts.length !== 1 ? 's' : ''} matching "${searchInput}"`;
+  } else {
+    document.getElementById("searchResult").textContent = 
+      `Showing ${contacts.length} contact${contacts.length !== 1 ? 's' : ''}`;
+  }
+
+  // Handle empty results
+  if (contacts.length === 0) {
+    const emptyRow = document.createElement("tr");
+    emptyRow.innerHTML = `
+      <td colspan="5" style="text-align: center; padding: 2rem; color: var(--baseColor); font-style: italic;">
+        ${searchInput ? `No contacts found matching "${searchInput}"` : 'No contacts found. Add your first contact!'}
+      </td>
+    `;
+    listContainer.appendChild(emptyRow);
+    return;
+  }
+
+  // Populate table with contacts - FIXED COLUMN ORDER
+  contacts.forEach(contact => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${escapeHtml(contact.firstName)}</td>
+      <td>${escapeHtml(contact.lastName)}</td>
+      <td>${escapeHtml(contact.email)}</td>
+      <td>${escapeHtml(contact.phoneNumber)}</td>
+      <td>
+        <div class="dropdown">
+          <button class="dropbtn">Actions ▼</button>
+          <div class="dropdown-content">
+            <a href="#" onclick="showEditContact(${contact.ID}, '${escapeHtml(contact.firstName)}', '${escapeHtml(contact.lastName)}', '${escapeHtml(contact.email)}', '${escapeHtml(contact.phoneNumber)}'); return false;">Edit</a>
+            <a href="#" onclick="deleteContact(${contact.ID}); return false;">Delete</a>
+          </div>
+        </div>
+      </td>
+    `;
+
+    listContainer.appendChild(row);
+  });
 }
 
 function showEditContact(id, firstName, lastName, email, phone) {
@@ -202,20 +295,41 @@ function showEditContact(id, firstName, lastName, email, phone) {
   document.getElementById("editPhone").value = phone;
 
   document.getElementById("editContactDiv").style.display = "block";
+  
+  // Scroll to edit section
+  document.getElementById("editContactDiv").scrollIntoView({ 
+    behavior: 'smooth', 
+    block: 'nearest' 
+  });
 }
 
 function cancelEdit() {
   document.getElementById("editContactDiv").style.display = "none";
   document.getElementById("editContactResult").innerHTML = "";
+  
+  // Clear form
+  document.getElementById("editContactForm").reset();
 }
 
 function updateContact() {
+  const contactId = parseInt(document.getElementById("editContactID").value);
+  const firstName = document.getElementById("editFirstName").value.trim();
+  const lastName = document.getElementById("editLastName").value.trim();
+  const email = document.getElementById("editEmail").value.trim();
+  const phone = document.getElementById("editPhone").value.trim();
+
+  // Validate form fields
+  if (!firstName || !lastName || !email || !phone) {
+    document.getElementById("editContactResult").innerHTML = "Please fill in all fields.";
+    return;
+  }
+
   const tmp = {
-    contactId: parseInt(document.getElementById("editContactID").value),
-    firstName: document.getElementById("editFirstName").value,
-    lastName: document.getElementById("editLastName").value,
-    email: document.getElementById("editEmail").value,
-    phone: document.getElementById("editPhone").value,
+    contactId,
+    firstName,
+    lastName,
+    email,
+    phone,
     userId
   };
 
@@ -235,9 +349,11 @@ function updateContact() {
       }
 
       document.getElementById("editContactResult").innerHTML = "Contact has been updated.";
+      showToast(`Updated: ${firstName} ${lastName}`);
+      
       setTimeout(() => {
-        document.getElementById("editContactDiv").style.display = "none";
-        searchContacts();
+        cancelEdit();
+        searchContacts(); // Refresh the list
       }, 1500);
     }
   };
@@ -246,6 +362,15 @@ function updateContact() {
 }
 
 function deleteContact(id) {
+  // Find contact name for confirmation (optional enhancement)
+  const row = event.target.closest('tr');
+  const firstName = row.cells[1].textContent;
+  const lastName = row.cells[2].textContent;
+  
+  if (!confirm(`Are you sure you want to delete ${firstName} ${lastName}?`)) {
+    return;
+  }
+
   const tmp = { ID: id, userID: userId };
   const jsonPayload = JSON.stringify(tmp);
   const url = `${urlBase}/deleteContact.${extension}`;
@@ -256,7 +381,8 @@ function deleteContact(id) {
 
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
-      searchContacts();
+      showToast(`Deleted: ${firstName} ${lastName}`);
+      searchContacts(); // Refresh the list
     }
   };
 
@@ -287,14 +413,22 @@ function readCookie() {
   }
 
   if (userId < 1) {
-    // window.location.href = "index.html";  // TEMPORARILY DISABLED FOR TESTING
-    // Set test values for local testing
-    userId = 1;
-    firstName = "Test";
-    lastName = "User";
+    if (TEST_MODE) {
+      // Set test values for local testing
+      userId = 1;
+      firstName = "Test";
+      lastName = "User";
+    } else {
+      window.location.href = "index.html";
+      return;
+    }
   }
   
-  document.getElementById("userName").innerHTML = `${firstName} ${lastName}`;
+  if (document.getElementById("userName")) {
+    document.getElementById("userName").innerHTML = `${firstName} ${lastName}`;
+  }
+  
+  // Load contacts on page load
   searchContacts();
 }
 
@@ -308,6 +442,33 @@ function escapeHtml(str) {
     .replace(/'/g, "&#039;");
 }
 
+// === Tab Switching (if using tabbed interface) ===
+function switchTab(tabName) {
+  // Hide all tab contents
+  const tabContents = document.querySelectorAll('.tab-content');
+  tabContents.forEach(tab => tab.classList.remove('active'));
+  
+  // Remove active class from all tab buttons
+  const tabButtons = document.querySelectorAll('.tab-button');
+  tabButtons.forEach(button => button.classList.remove('active'));
+  
+  // Show selected tab content
+  if (tabName === 'contacts') {
+    const contactsTab = document.getElementById('contactsTab');
+    const contactsButton = document.querySelector('.tab-button:first-child');
+    
+    if (contactsTab) contactsTab.classList.add('active');
+    if (contactsButton) contactsButton.classList.add('active');
+  } else if (tabName === 'add') {
+    const addTab = document.getElementById('addTab');
+    const addButton = document.querySelector('.tab-button:last-child');
+    
+    if (addTab) addTab.classList.add('active');
+    if (addButton) addButton.classList.add('active');
+  }
+}
+
+// === Dropdown Event Handling ===
 document.addEventListener("click", function (e) {
   // Close all open dropdowns
   document.querySelectorAll(".dropdown").forEach(dropdown => {

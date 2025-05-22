@@ -1,0 +1,155 @@
+/* Skeleton Animation */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+.skeleton {
+    background: linear-gradient(90deg, 
+        var(--bgMedium) 25%, 
+        #4a5159 50%, 
+        var(--bgMedium) 75%
+    );
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite linear;
+    border-radius: 4px;
+}
+
+/* Skeleton rows should match table structure exactly */
+.skeleton-row {
+    height: auto;
+}
+
+.skeleton-row td {
+    padding: 0.75rem 1rem; /* Match your table cell padding exactly */
+    vertical-align: middle;
+    border-bottom: 1px solid #444; /* Match table border */
+    background-color: var(--bgDark); /* Match table background */
+}
+
+.skeleton-row:hover td {
+    background-color: var(--bgMedium); /* Match table hover effect */
+}
+
+/* Skeleton text elements */
+.skeleton-text {
+    height: 16px;
+    margin: 4px 0;
+    display: block;
+}
+
+/* Make skeleton columns match your table's exact column structure */
+.skeleton-row td:nth-child(1) { /* First Name */
+    width: 15%;
+    min-width: 120px;
+}
+
+.skeleton-row td:nth-child(2) { /* Last Name */
+    width: 15%;
+    min-width: 120px;
+}
+
+.skeleton-row td:nth-child(3) { /* Email */
+    width: 40%;
+    min-width: 200px;
+}
+
+.skeleton-row td:nth-child(4) { /* Phone */
+    width: 18%;
+    min-width: 130px;
+}
+
+.skeleton-row td:nth-child(5) { /* Actions */
+    width: 12%;
+    min-width: 100px;
+    text-align: center;
+}
+
+/* Skeleton element sizes to look realistic and fit the columns */
+.skeleton-row td:nth-child(1) .skeleton-text { /* First Name */
+    width: 80%;
+    max-width: 90px;
+}
+
+.skeleton-row td:nth-child(2) .skeleton-text { /* Last Name */
+    width: 85%;
+    max-width: 95px;
+}
+
+.skeleton-row td:nth-child(3) .skeleton-text { /* Email */
+    width: 90%;
+    max-width: 180px;
+}
+
+.skeleton-row td:nth-child(4) .skeleton-text { /* Phone */
+    width: 75%;
+    max-width: 100px;
+}
+
+.skeleton-button {
+    height: 32px; /* Match dropdown button height */
+    width: 80px;  /* Match dropdown button width */
+    border-radius: 4px;
+    margin: 0 auto;
+    display: block;
+}
+
+/* Random width variations for more realistic look */
+.skeleton-text.short { 
+    width: 60% !important; 
+}
+
+.skeleton-text.medium { 
+    width: 75% !important; 
+}
+
+.skeleton-text.long { 
+    width: 90% !important; 
+}
+
+.skeleton-text.email { 
+    width: 85% !important;
+    max-width: 180px !important;
+}
+
+.skeleton-text.phone { 
+    width: 70% !important;
+    max-width: 100px !important;
+}
+
+/* Responsive adjustments for skeleton to match your table */
+@media (max-width: 768px) {
+    .skeleton-row td {
+        padding: 0.5rem; /* Match your responsive table padding */
+        font-size: 0.8rem;
+    }
+    
+    .skeleton-text {
+        height: 14px;
+    }
+    
+    .skeleton-button {
+        height: 28px;
+        width: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    .skeleton-row td {
+        padding: 0.4rem; /* Match your responsive table padding */
+        font-size: 0.75rem;
+    }
+    
+    .skeleton-text {
+        height: 12px;
+    }
+    
+    .skeleton-button {
+        height: 24px;
+        width: 50px;
+    }
+}
