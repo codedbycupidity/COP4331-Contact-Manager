@@ -1,13 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Login - Contact Manager</title>
-    <link rel="stylesheet" href="../css/fonts.css" />
+  <link rel="stylesheet" href="../css/fonts.css" />
+  <link rel="stylesheet" href="../css/navbar.css" />
   <link rel="stylesheet" href="../css/styles.css" />
   <script src="../js/main.js" defer></script>
 </head>
+
 <body class="login-page">
+  <!-- Top Navigation Bar -->
+  <nav class="top-navbar">
+    <div class="navbar-content">
+      <div class="navbar-brand">Contact Manager</div>
+      <div class="navbar-links">
+        <a href="index.html" class="navbar-link active">Login</a>
+        <a href="meet-team.html" class="navbar-link">Meet the Team</a>
+      </div>
+    </div>
+  </nav>
+
   <div class="container">
     <section class="form-section" style="max-width: 400px; margin: 5rem auto;">
       <h2>Login</h2>
@@ -29,9 +43,11 @@
 
       <p style="margin-top: 1rem; font-size: 0.875rem;">
         Don't have an account?
-        <a href="register.html" style="color: var(--loginSubmitBackgroundColor); text-decoration: underline;">Register here</a>
+        <a href="register.html" style="color: var(--loginSubmitBackgroundColor); text-decoration: underline;">Register
+          here</a>
       </p>
     </section>
   </div>
 </body>
+
 </html>
