@@ -28,6 +28,7 @@
   color: var(--loginSubmitBackgroundColor);
   flex: 1;
   text-align: left;
+  text-decoration: none;
 }
 
 .navbar-links {
