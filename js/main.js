@@ -1,6 +1,8 @@
 const urlBase = '/LAMPAPI';
 const extension = 'php';
 
+const TEST_MODE = true; // Set to false when going to production
+
 let userId = 0;
 let firstName = "";
 let lastName = "";
@@ -285,11 +287,15 @@ function readCookie() {
   }
 
   if (userId < 1) {
-    window.location.href = "index.html";
-  } else {
-    document.getElementById("userName").innerHTML = `${firstName} ${lastName}`;
-    searchContacts();
+    // window.location.href = "index.html";  // TEMPORARILY DISABLED FOR TESTING
+    // Set test values for local testing
+    userId = 1;
+    firstName = "Test";
+    lastName = "User";
   }
+  
+  document.getElementById("userName").innerHTML = `${firstName} ${lastName}`;
+  searchContacts();
 }
 
 // === HTML Escape ===

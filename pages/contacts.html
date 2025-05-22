@@ -4,7 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Contacts - Contact Manager</title>
+    <link rel="stylesheet" href="../css/contacts.css">
     <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        /* Tab Styles - Additional styles for the tabbed interface */
+        .tab-container {
+            border-bottom: 1px solid #814949;
+        }
+
+        .tab-buttons {
+            display: flex;
+            background-color: #f8f9fa;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 15px 20px;
+            background-color: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button:hover {
+            background-color: #e9ecef;
+            color: #333;
+        }
+
+        .tab-button.active {
+            color: #2c3e50;
+            border-bottom-color: #3498db;
+            background-color: white;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 30px;
+            min-height: 500px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
     <script src="../js/main.js" defer></script>
 </head>
 <body>
@@ -17,35 +63,79 @@
             </div>
         </div>
 
-        <!-- Search Bar -->
-        <div id="searchDiv">
-            <input type="text" id="searchText" placeholder="Search contacts...">
-            <button id="searchButton" onclick="searchContacts()">Search</button>
-            <span id="searchResult"></span>
+        <!-- Tab Navigation -->
+        <div class="tab-container">
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="switchTab('contacts')">Contact List</button>
+                <button class="tab-button" onclick="switchTab('add')">Add Contact</button>
+            </div>
         </div>
 
-        <!-- Contacts List -->
-        <div id="contactsDiv">
-            <table id="contactsTable">
-                <thead>
-                    <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="contactsList">
-                    <!-- Contacts will be loaded here by JavaScript -->
-                </tbody>
-            </table>
+        <!-- Contact List Tab -->
+        <div id="contactsTab" class="tab-content active">
+            <!-- Search Bar -->
+            <div id="searchDiv">
+                <input type="text" id="searchText" placeholder="Search contacts...">
+                <button id="searchButton" onclick="searchContacts()">Search</button>
+                <span id="searchResult"></span>
+            </div>
+
+            <!-- Contacts List -->
+            <div id="contactsDiv">
+                <table id="contactsTable">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="contactsList">
+                        <!-- Contacts will be loaded here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Edit Contact Section (Initially Hidden) -->
+            <div id="editContactDiv" style="display: none;">
+                <h2>Edit Contact</h2>
+                <div id="editContactResult" class="result-message"></div>
+                
+                <form id="editContactForm">
+                    <input type="hidden" id="editContactID">
+                    
+                    <div class="form-group">
+                        <label for="editFirstName">First Name:</label>
+                        <input type="text" id="editFirstName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editLastName">Last Name:</label>
+                        <input type="text" id="editLastName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editEmail">Email:</label>
+                        <input type="email" id="editEmail" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editPhone">Phone:</label>
+                        <input type="text" id="editPhone" required>
+                    </div>
+                    
+                    <button type="button" id="updateContactButton" onclick="updateContact()">Update Contact</button>
+                    <button type="button" id="cancelEditButton" onclick="cancelEdit()">Cancel</button>
+                </form>
+            </div>
         </div>
 
-        <!-- Add Contact Section -->
-        <div id="addContactDiv">
+        <!-- Add Contact Tab -->
+        <div id="addTab" class="tab-content">
             <h2>Add New Contact</h2>
-            <div id="addContactResult"></div>
+            <div id="addContactResult" class="result-message"></div>
             
             <form id="addContactForm">
                 <div class="form-group">
@@ -71,39 +161,28 @@
                 <button type="button" id="addContactButton" onclick="addContact()">Add Contact</button>
             </form>
         </div>
-
-        <!-- Edit Contact Section (Initially Hidden) -->
-        <div id="editContactDiv" style="display: none;">
-            <h2>Edit Contact</h2>
-            <div id="editContactResult"></div>
-            
-            <form id="editContactForm">
-                <input type="hidden" id="editContactID">
-                
-                <div class="form-group">
-                    <label for="editFirstName">First Name:</label>
-                    <input type="text" id="editFirstName" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="editLastName">Last Name:</label>
-                    <input type="text" id="editLastName" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="editEmail">Email:</label>
-                    <input type="email" id="editEmail" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="editPhone">Phone:</label>
-                    <input type="text" id="editPhone" required>
-                </div>
-                
-                <button type="button" id="updateContactButton" onclick="updateContact()">Update Contact</button>
-                <button type="button" id="cancelEditButton" onclick="cancelEdit()">Cancel</button>
-            </form>
-        </div>
     </div>
+
+    <script>
+        // Tab switching functionality
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(tab => tab.classList.remove('active'));
+            
+            // Remove active class from all tab buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected tab content
+            if (tabName === 'contacts') {
+                document.getElementById('contactsTab').classList.add('active');
+                document.querySelector('.tab-button:first-child').classList.add('active');
+            } else if (tabName === 'add') {
+                document.getElementById('addTab').classList.add('active');
+                document.querySelector('.tab-button:last-child').classList.add('active');
+            }
+        }
+    </script>
 </body>
 </html>

@@ -1,0 +1,562 @@
+:root {
+  --baseColor: #606468;
+  --iconFill: var(--baseColor);
+  --loginSubmitBackgroundColor: #ea4c88;
+  --loginSubmitHoverBackgroundColor: #d44179;
+  --loginSubmitColor: #eee;
+  --bgDark: #2c3338;
+  --bgMedium: #3b4148;
+  --textLight: #eee;
+}
+
+/* RESET + BASE LAYOUT */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bgDark);
+  color: var(--baseColor);
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.875rem;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* HEADER */
+#headerDiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #555;
+}
+
+#headerDiv h1 {
+  margin: 0;
+  color: var(--textLight);
+  font-size: 1.5rem;
+}
+
+/* USER INFO */
+#userInfo {
+  font-size: 0.9rem;
+  text-align: right;
+  color: var(--baseColor);
+}
+
+#logoutButton {
+  margin-left: 8px;
+  padding: 4px 10px;
+  font-size: 0.85rem;
+  background-color: var(--loginSubmitBackgroundColor);
+  color: var(--loginSubmitColor);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#logoutButton:hover {
+  background-color: var(--loginSubmitHoverBackgroundColor);
+}
+
+/* TAB STYLES */
+.tab-container {
+  border-bottom: 1px solid #555;
+  margin-bottom: 1rem;
+}
+
+.tab-buttons {
+  display: flex;
+  background-color: var(--bgMedium);
+  border-radius: 4px 4px 0 0;
+  border: 1px solid var(--bgMedium); /* Add this line */
+}
+
+.tab-button {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  background-color: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--baseColor);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
+
+.tab-button:hover {
+  background-color: var(--bgDark);
+  color: var(--textLight);
+}
+
+.tab-button.active {
+  color: var(--loginSubmitBackgroundColor);
+  border-bottom-color: var(--loginSubmitBackgroundColor);
+  background-color: var(--bgDark);
+  font-weight: bold;
+}
+
+.tab-content {
+  display: none;
+  min-height: 600px;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* SEARCH BAR */
+#searchDiv {
+  margin-bottom: 1.5rem;
+  display: flex;
+  max-width: 600px;
+  gap: 10px;
+}
+
+#searchText {
+  flex-grow: 1;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: none;
+  background-color: var(--bgMedium);
+  color: var(--textLight);
+}
+
+#searchText::placeholder {
+  color: var(--baseColor);
+}
+
+#searchButton {
+  padding: 0.5rem 1rem;
+  background-color: var(--loginSubmitBackgroundColor);
+  color: var(--loginSubmitColor);
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#searchButton:hover {
+  background-color: var(--loginSubmitHoverBackgroundColor);
+}
+
+#searchResult {
+  color: var(--baseColor);
+  font-style: italic;
+  font-size: 0.8rem;
+  align-self: center;
+  margin-left: 10px;
+}
+
+/* TABLE WRAPPER */
+.table-wrapper {
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  background-color: var(--bgMedium);
+  overflow-x: auto;
+  overflow-y: visible;
+  position: relative;
+  z-index: 0;
+  margin-bottom: 2rem;
+}
+
+/* TABLE STRUCTURE */
+#contactsTable {
+  width: 100%;
+  min-width: 800px;
+  border-collapse: separate;
+  background-color: var(--bgDark);
+  table-layout: auto;
+}
+
+#contactsTable thead {
+  background-color: #444;
+}
+
+#contactsTable th {
+  position: sticky;
+  top: 0;
+  background-color: #444;
+  color: var(--textLight);
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #555;
+  text-align: left;
+  white-space: nowrap;
+  overflow: visible !important;
+  text-overflow: clip;
+  z-index: 1;
+  position: relative;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+#contactsTable td {
+  padding: 0.75rem 1rem;
+  color: #ccc;
+  border-bottom: 1px solid #444;
+  background-color: var(--bgDark);
+  vertical-align: middle;
+  overflow: visible !important;
+  text-overflow: clip;
+  white-space: nowrap;
+  position: relative;
+}
+
+#contactsTable tr:hover td {
+  background-color: var(--bgMedium);
+}
+
+/* FORM STYLES */
+.form-section {
+  background-color: var(--bgMedium);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  max-width: 500px;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+  color: var(--textLight);
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: var(--bgDark);
+  color: var(--textLight);
+  font-size: 0.875rem;
+}
+
+.form-group input:focus {
+  outline: 2px solid var(--loginSubmitBackgroundColor);
+  outline-offset: -2px;
+}
+
+.form-group input::placeholder {
+  color: var(--baseColor);
+}
+
+/* BUTTONS */
+#addContactButton,
+#updateContactButton {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: var(--loginSubmitBackgroundColor);
+  color: var(--loginSubmitColor);
+  font-weight: bold;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+#addContactButton:hover,
+#updateContactButton:hover {
+  background-color: var(--loginSubmitHoverBackgroundColor);
+}
+
+#cancelEditButton {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: var(--baseColor);
+  color: var(--textLight);
+  font-weight: bold;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+#cancelEditButton:hover {
+  background-color: #4e5560;
+}
+
+/* EDIT CONTACT SECTION */
+#editContactDiv {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: var(--bgMedium);
+  border-radius: 0.5rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  border-left: 4px solid var(--loginSubmitBackgroundColor);
+}
+
+#editContactDiv h2 {
+  margin: 0 0 1rem 0;
+  color: var(--textLight);
+  font-size: 1.1rem;
+  text-transform: uppercase;
+}
+
+/* MESSAGE STYLES */
+.result-message {
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  display: none;
+}
+
+.result-success {
+  background-color: rgba(46, 204, 113, 0.2);
+  color: var(--textLight);
+  border-left: 4px solid #2ecc71;
+}
+
+.result-error {
+  background-color: rgba(231, 76, 60, 0.2);
+  color: var(--textLight);
+  border-left: 4px solid #e74c3c;
+}
+
+/* TOAST NOTIFICATION */
+#toast {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background-color: #2ecc71;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+#toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* DROPDOWN STYLES */
+.dropdown {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.dropbtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  width: 100%;
+  background-color: var(--bgMedium);
+  color: var(--textLight);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  z-index: 6;
+  position: relative;
+  font-size: 0.8rem;
+}
+
+.dropbtn:hover {
+  background-color: #4e5560;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  background-color: #434a52;
+  min-width: 140px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  z-index: 1001;
+  border-radius: 4px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.2s ease-out;
+}
+
+.dropdown-content a {
+  color: #eee;
+  padding: 10px 14px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  transition: background-color 0.2s;
+  font-size: 0.8rem;
+}
+
+.dropdown-content a:hover {
+  background-color: #555;
+}
+
+.dropdown.active .dropdown-content {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ACTION BUTTONS (Alternative to dropdown if needed) */
+.edit-btn,
+.delete-btn {
+  padding: 4px 8px;
+  margin: 0 2px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.edit-btn {
+  background-color: #f39c12;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #e67e22;
+}
+
+.delete-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #c0392b;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  #headerDiv {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .tab-buttons {
+    flex-direction: column;
+  }
+  
+  .tab-button {
+    padding: 0.75rem;
+  }
+  
+  #searchDiv {
+    flex-direction: column;
+    max-width: 100%;
+  }
+  
+  #searchText,
+  #searchButton {
+    width: 100%;
+  }
+  
+  .table-wrapper {
+    overflow-x: scroll;
+  }
+  
+  #contactsTable {
+    min-width: 600px;
+  }
+  
+  #contactsTable th,
+  #contactsTable td {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+  
+  .form-section {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0.5rem;
+  }
+  
+  #headerDiv h1 {
+    font-size: 1.2rem;
+  }
+  
+  .tab-content {
+    min-height: 400px;
+  }
+  
+  #contactsTable th,
+  #contactsTable td {
+    padding: 0.4rem;
+    font-size: 0.75rem;
+  }
+  
+  .dropbtn {
+    padding: 4px 6px;
+    font-size: 0.7rem;
+  }
+}
+
+/* Fix for table cell overflow */
+#contactsTable td, 
+#contactsTable th {
+  overflow: visible !important;
+}
+
+/* Prevent row highlighting from covering dropdown */
+#contactsTable tr:hover td {
+  position: relative;
+  z-index: auto;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bgDark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--baseColor);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--loginSubmitBackgroundColor);
+}
