@@ -1,0 +1,158 @@
+
+  
+    /* TEAM PAGE SPECIFIC STYLES */
+    .team-page {
+      background: url('../assets/images/background2.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+      padding: 2rem 0;
+      position: relative;
+    }
+
+    .team-page::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(44, 51, 56, 0.85);
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Clean Two-row Layout Grid */
+    .team-grid.two-row-layout {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      /* 6 columns for precise control */
+      grid-template-rows: auto auto;
+      gap: 2rem;
+      padding: 2rem;
+    }
+
+    /* Position top row (3 cards) */
+    .team-grid.two-row-layout .member-card:nth-child(1) {
+      grid-column: 1 / span 2;
+      /* First 2 columns */
+    }
+
+    .team-grid.two-row-layout .member-card:nth-child(2) {
+      grid-column: 3 / span 2;
+      /* Middle 2 columns */
+    }
+
+    .team-grid.two-row-layout .member-card:nth-child(3) {
+      grid-column: 5 / span 2;
+      /* Last 2 columns */
+    }
+
+    /* Position bottom row (2 cards centered in gaps) */
+    .team-grid.two-row-layout .member-card:nth-child(4) {
+      grid-column: 2 / span 2;
+      /* Starts at column 2, spans 2 */
+      grid-row: 2;
+    }
+
+    .team-grid.two-row-layout .member-card:nth-child(5) {
+      grid-column: 4 / span 2;
+      /* Starts at column 4, spans 2 */
+      grid-row: 2;
+    }
+
+    .member-card {
+      background: rgba(59, 65, 72, 0.85);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      width: 100%;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .member-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+      background: rgba(59, 65, 72, 0.95);
+    }
+
+    .member-card img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--loginSubmitBackgroundColor);
+      margin-bottom: 1.5rem;
+    }
+
+    .member-card h2 {
+      color: var(--textLight);
+      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+    }
+
+    .member-card p {
+      color: var(--baseColor);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .title {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: var(--textLight);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+
+    header p {
+      color: var(--textLight);
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      font-size: 1.1rem;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .team-grid.two-row-layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        padding: 1rem;
+      }
+
+      .team-grid.two-row-layout .member-card {
+        grid-column: auto !important;
+        grid-row: auto !important;
+        max-width: 320px;
+        margin: 0 auto 1.5rem !important;
+      }
+
+      .title {
+        font-size: 2rem;
+      }
+
+      .member-card {
+        padding: 1.5rem;
+      }
+    }
+
+    /* Team member role highlight */
+    .member-card p:first-of-type {
+      color: var(--loginSubmitBackgroundColor);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      font-size: 1rem;
+    }
