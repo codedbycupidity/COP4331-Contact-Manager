@@ -1,7 +1,7 @@
 const urlBase = '/LAMPAPI';
 const extension = 'php';
 
-const TEST_MODE = true; // Set to false when going to production
+const TEST_MODE = false; // Set to false when going to production
 
 let userId = 0;
 let firstName = "";

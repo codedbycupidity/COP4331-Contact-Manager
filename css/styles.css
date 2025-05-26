@@ -613,7 +613,7 @@ body.login-page {
 @media (max-width: 600px) {
   html, body {
     height: 100vh;
-    overflow: hidden;
+    overflow-y: auto;
   }
   
   body.login-page {
