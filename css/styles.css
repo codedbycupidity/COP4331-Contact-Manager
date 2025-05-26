@@ -39,7 +39,7 @@ body {
   min-height: 100vh;
 }
 
-.container {
+.login-container {
   width: 100%;
   max-width: 1200px;
   padding: 2rem;
@@ -123,6 +123,8 @@ body {
 
 /* FORM SECTION */
 .form-section {
+  max-width: 400px; 
+  margin: 5rem auto;
   flex: 0 0 35%;
   background-color: var(--bgMedium);
   padding: 1.5rem;
@@ -465,47 +467,6 @@ body.login-page .form-section {
   backdrop-filter: blur(6px);
 }
 
-body.team-page {
-  background-color: var(--bgDark);
-  font-family: 'Open Sans', sans-serif;
-}
-
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 2rem;
-  justify-content: center;
-}
-
-.member-card {
-  background-color: var(--bgMedium);
-  padding: 1.5rem;
-  border-radius: 12px;
-  text-align: center;
-  color: var(--textLight);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-.member-card img {
-  width: 100%;
-  max-width: 180px;
-  height: auto;
-  border-radius: 50%;
-  margin-bottom: 1rem;
-  border: 3px solid var(--loginSubmitBackgroundColor);
-}
-
-.member-card h2 {
-  margin: 0.5rem 0;
-  font-size: 1.1rem;
-  color: var(--loginSubmitBackgroundColor);
-}
-
-.member-card p {
-  font-size: 0.875rem;
-  color: var(--textLight);
-}
-
 #teamButton {
   font-size: 0.85rem;
   padding: 4px 10px;
@@ -559,7 +520,7 @@ body.login-page {
     z-index: -1;
   }
   
-  body.login-page .container {
+  body.login-page .login-container {
     height: 100vh;
     width: 100vw;
     overflow-y: auto;
